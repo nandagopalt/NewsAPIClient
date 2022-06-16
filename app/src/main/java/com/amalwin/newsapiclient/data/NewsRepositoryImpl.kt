@@ -9,17 +9,20 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class NewsRepositoryImpl(private val remoteNewsDataSource: RemoteNewsDataSource) : NewsRepository {
-    override suspend fun getNewsHeadLinesFromAPI(): Resource<APIResponse> {
-       return resourceToResponse(remoteNewsDataSource.getTopHeadLines())
+    override suspend fun getNewsHeadLinesFromAPI(
+        country: String,
+        page: Int
+    ): Resource<APIResponse> {
+        return responseToResource(remoteNewsDataSource.getTopHeadLines(country, page))
     }
 
-    private fun resourceToResponse(response: Response<APIResponse>): Resource<APIResponse> {
-        if(response.isSuccessful) {
+    private fun responseToResource(response: Response<APIResponse>): Resource<APIResponse> {
+        if (response.isSuccessful) {
             response.body().let { result ->
-                 return result.let { Resource.Success(result!!) }
+                return result.let { Resource.Success(result!!) }
             }
         }
-        return Resource.Error(response.body(),response.message())
+        return Resource.Error(response.body(), response.message())
     }
 
     override suspend fun searchNewsFromAPI(searchQuery: String): Resource<APIResponse> {

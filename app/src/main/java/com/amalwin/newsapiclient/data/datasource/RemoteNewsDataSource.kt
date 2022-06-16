@@ -4,5 +4,8 @@ import com.amalwin.newsapiclient.data.model.APIResponse
 import retrofit2.Response
 
 interface RemoteNewsDataSource {
-    suspend fun getTopHeadLines(): Response<APIResponse>
+    suspend fun getTopHeadLines(
+        country: String,
+        page: Int
+    ): Response<APIResponse>
 }

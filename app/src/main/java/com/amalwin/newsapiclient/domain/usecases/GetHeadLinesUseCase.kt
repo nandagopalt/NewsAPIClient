@@ -5,7 +5,7 @@ import com.amalwin.newsapiclient.data.util.Resource
 import com.amalwin.newsapiclient.domain.repositories.NewsRepository
 
 class GetHeadLinesUseCase(private val newsRepository: NewsRepository) {
-    suspend fun execute(): Resource<APIResponse> {
-        return newsRepository.getNewsHeadLinesFromAPI()
+    suspend fun execute(country: String, page: Int): Resource<APIResponse> {
+        return newsRepository.getNewsHeadLinesFromAPI(country, page)
     }
 }

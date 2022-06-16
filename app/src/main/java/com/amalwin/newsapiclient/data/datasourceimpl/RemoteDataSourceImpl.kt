@@ -7,10 +7,12 @@ import retrofit2.Response
 
 class RemoteDataSourceImpl(
     private val newsAPIService: NewsAPIService,
-    private val country: String,
-    private val page: Int
-) : RemoteNewsDataSource {
-    override suspend fun getTopHeadLines(): Response<APIResponse> {
+
+    ) : RemoteNewsDataSource {
+    override suspend fun getTopHeadLines(
+        country: String,
+        page: Int
+    ): Response<APIResponse> {
         return newsAPIService.getTopHeadLines(country, page)
     }
 }

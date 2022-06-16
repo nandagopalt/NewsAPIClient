@@ -6,7 +6,11 @@ import com.amalwin.newsapiclient.data.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    suspend fun getNewsHeadLinesFromAPI(): Resource<APIResponse>
+    suspend fun getNewsHeadLinesFromAPI(
+        country: String,
+        page: Int
+    ): Resource<APIResponse>
+
     suspend fun searchNewsFromAPI(searchQuery: String): Resource<APIResponse>
 
     suspend fun saveNewsArticleToDB(article: Article)
