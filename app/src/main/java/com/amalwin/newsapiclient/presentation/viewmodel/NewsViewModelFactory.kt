@@ -1,4 +1,4 @@
-package com.amalwin.newsapiclient.presentation
+package com.amalwin.newsapiclient.presentation.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
