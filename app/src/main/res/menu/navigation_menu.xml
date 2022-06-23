@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/newsListFragment"
+        android:icon="@drawable/ic_news_list"
+        android:title="News List"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/savedFavoriteFragment"
+        android:icon="@drawable/ic_saved_newslist"
+        android:title="Saved NewsList"
+        app:showAsAction="always|withText" />
+</menu>

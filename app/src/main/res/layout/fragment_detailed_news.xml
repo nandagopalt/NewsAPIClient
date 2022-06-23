@@ -3,13 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.SavedFavoriteFragment">
+    tools:context=".DetailedNewsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Fragment 2"
-        android:textAlignment="center" />
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>
