@@ -13,12 +13,21 @@
         android:text="Fragment 1"
         android:textAlignment="center" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
         android:clipToPadding="true"
-        tools:listitem="@layout/news_list_item"
-        />
+        android:focusable="true"
+        tools:listitem="@layout/news_list_item">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

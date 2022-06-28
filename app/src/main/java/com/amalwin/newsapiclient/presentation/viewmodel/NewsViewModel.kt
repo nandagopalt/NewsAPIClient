@@ -19,7 +19,7 @@ class NewsViewModel(
     private val getHeadLinesUseCase: GetHeadLinesUseCase
 ) :
     AndroidViewModel(applicationContext) {
-    private val newsHeadLines: MutableLiveData<Resource<APIResponse>> = MutableLiveData()
+    val newsHeadLines: MutableLiveData<Resource<APIResponse>> = MutableLiveData()
 
     fun getTopHeadLines(country: String, page: Int) = viewModelScope.launch(Dispatchers.IO) {
         try {

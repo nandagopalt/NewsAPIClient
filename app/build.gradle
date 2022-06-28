@@ -45,6 +45,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    kapt 'com.github.bumptech.glide:compiler:4.13.2'
     def nav_version = "2.4.2"
     // Kotlin
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")

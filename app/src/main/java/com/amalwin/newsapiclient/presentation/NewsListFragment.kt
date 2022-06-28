@@ -5,31 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.amalwin.newsapiclient.MainActivity
 import com.amalwin.newsapiclient.R
+import com.amalwin.newsapiclient.data.util.Resource
+import com.amalwin.newsapiclient.databinding.FragmentNewsListBinding
+import com.amalwin.newsapiclient.presentation.viewmodel.NewsViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [NewsListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class NewsListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private lateinit var newsAdapter: NewsAdapter
+    private lateinit var newsViewModel: NewsViewModel
+    private lateinit var newsListBinding: FragmentNewsListBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,23 +26,53 @@ class NewsListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_news_list, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment NewsListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NewsListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        newsListBinding = FragmentNewsListBinding.bind(view)
+        newsViewModel = (activity as MainActivity).newsViewModel
+        initRecyclerView()
+        viewNewsList()
+    }
+
+    private fun initRecyclerView() {
+        newsListBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        newsAdapter = NewsAdapter()
+        newsListBinding.recyclerView.adapter = newsAdapter
+    }
+
+    private fun showProgressBar() {
+        newsListBinding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        newsListBinding.progressBar.visibility = View.GONE
+    }
+
+    private fun viewNewsList() {
+        newsViewModel.getTopHeadLines("us", 1)
+        newsViewModel.newsHeadLines.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let {
+                        newsAdapter.differList.submitList(it.articles.toList())
+                    }
+                }
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let {
+                        Toast.makeText(activity, "Error Occured : $it ", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                is Resource.Loading -> {
+                    showProgressBar()
                 }
             }
+        })
+    }
+
+    companion object {
+
     }
 }
