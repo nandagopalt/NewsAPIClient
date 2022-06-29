@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.amalwin.newsapiclient.databinding.ActivityMainBinding
+import com.amalwin.newsapiclient.presentation.NewsAdapter
 import com.amalwin.newsapiclient.presentation.viewmodel.NewsViewModel
 import com.amalwin.newsapiclient.presentation.viewmodel.NewsViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +16,10 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var newsViewModelFactory: NewsViewModelFactory
+    @Inject
+    lateinit var newsAdapter: NewsAdapter
     private lateinit var binding: ActivityMainBinding
+
 
     lateinit var newsViewModel: NewsViewModel
 

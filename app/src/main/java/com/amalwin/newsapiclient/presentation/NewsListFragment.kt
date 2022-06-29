@@ -13,9 +13,13 @@ import com.amalwin.newsapiclient.R
 import com.amalwin.newsapiclient.data.util.Resource
 import com.amalwin.newsapiclient.databinding.FragmentNewsListBinding
 import com.amalwin.newsapiclient.presentation.viewmodel.NewsViewModel
+import javax.inject.Inject
 
 class NewsListFragment : Fragment() {
-    private lateinit var newsAdapter: NewsAdapter
+
+    @Inject
+    lateinit var newsAdapter: NewsAdapter
+
     private lateinit var newsViewModel: NewsViewModel
     private lateinit var newsListBinding: FragmentNewsListBinding
     override fun onCreateView(
@@ -30,13 +34,14 @@ class NewsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         newsListBinding = FragmentNewsListBinding.bind(view)
         newsViewModel = (activity as MainActivity).newsViewModel
+        newsAdapter = (activity as MainActivity).newsAdapter
         initRecyclerView()
         viewNewsList()
     }
 
     private fun initRecyclerView() {
         newsListBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        newsAdapter = NewsAdapter()
+        //newsAdapter = NewsAdapter()
         newsListBinding.recyclerView.adapter = newsAdapter
     }
 
