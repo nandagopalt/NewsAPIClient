@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.amalwin.newsapiclient.MainActivity
 import com.amalwin.newsapiclient.R
 import com.amalwin.newsapiclient.data.util.Resource
@@ -16,6 +18,8 @@ import com.amalwin.newsapiclient.presentation.viewmodel.NewsViewModel
 import javax.inject.Inject
 
 class NewsListFragment : Fragment() {
+
+    private val isScrolling = false
 
     @Inject
     lateinit var newsAdapter: NewsAdapter
@@ -75,6 +79,37 @@ class NewsListFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private val scrollListener = object: RecyclerView.OnScrollListener() {
+        /**
+         * Callback method to be invoked when RecyclerView's scroll state changes.
+         *
+         * @param recyclerView The RecyclerView whose scroll state has changed.
+         * @param newState     The updated scroll state. One of [.SCROLL_STATE_IDLE],
+         * [.SCROLL_STATE_DRAGGING] or [.SCROLL_STATE_SETTLING].
+         */
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            //if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+
+        }
+
+        /**
+         * Callback method to be invoked when the RecyclerView has been scrolled. This will be
+         * called after the scroll has completed.
+         *
+         *
+         * This callback will also be called if visible item range changes after a layout
+         * calculation. In that case, dx and dy will be 0.
+         *
+         * @param recyclerView The RecyclerView which scrolled.
+         * @param dx The amount of horizontal scroll.
+         * @param dy The amount of vertical scroll.
+         */
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+        }
     }
 
     companion object {
