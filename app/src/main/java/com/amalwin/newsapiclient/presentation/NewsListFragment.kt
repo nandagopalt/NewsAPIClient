@@ -19,7 +19,8 @@ import javax.inject.Inject
 
 class NewsListFragment : Fragment() {
 
-    private val isScrolling = false
+    private var isScrolling = false
+    private var isLoading = true
 
     @Inject
     lateinit var newsAdapter: NewsAdapter
@@ -50,10 +51,12 @@ class NewsListFragment : Fragment() {
     }
 
     private fun showProgressBar() {
+        isLoading = true
         newsListBinding.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideProgressBar() {
+        isLoading = false
         newsListBinding.progressBar.visibility = View.GONE
     }
 
@@ -81,7 +84,7 @@ class NewsListFragment : Fragment() {
         })
     }
 
-    private val scrollListener = object: RecyclerView.OnScrollListener() {
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
         /**
          * Callback method to be invoked when RecyclerView's scroll state changes.
          *
@@ -91,8 +94,8 @@ class NewsListFragment : Fragment() {
          */
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
-            //if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
-
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+                isScrolling = true
         }
 
         /**
@@ -109,6 +112,14 @@ class NewsListFragment : Fragment() {
          */
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
+            val layoutManager = newsListBinding.recyclerView.layoutManager as LinearLayoutManager
+            val totalItemCount = layoutManager.itemCount
+            val visibleItemCount = layoutManager.childCount
+            val visibleTopItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val hasReachedToEnd = visibleItemCount + visibleTopItemPosition >= totalItemCount
+
+
+
         }
     }
 
