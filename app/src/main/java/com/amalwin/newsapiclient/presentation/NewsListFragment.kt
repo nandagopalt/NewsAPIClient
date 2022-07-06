@@ -88,6 +88,7 @@ class NewsListFragment : Fragment() {
         /**
          * Callback method to be invoked when RecyclerView's scroll state changes.
          *
+         * 
          * @param recyclerView The RecyclerView whose scroll state has changed.
          * @param newState     The updated scroll state. One of [.SCROLL_STATE_IDLE],
          * [.SCROLL_STATE_DRAGGING] or [.SCROLL_STATE_SETTLING].
