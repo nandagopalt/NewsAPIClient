@@ -20,7 +20,10 @@ import javax.inject.Inject
 class NewsListFragment : Fragment() {
 
     private var isScrolling = false
-    private var isLoading = true
+    private var isLoading = false
+    private var page = 1
+    private var isLastPage = false
+    private var pages = 0
 
     @Inject
     lateinit var newsAdapter: NewsAdapter
@@ -48,6 +51,7 @@ class NewsListFragment : Fragment() {
         newsListBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
         //newsAdapter = NewsAdapter()
         newsListBinding.recyclerView.adapter = newsAdapter
+        newsListBinding.recyclerView.addOnScrollListener(scrollListener)
     }
 
     private fun showProgressBar() {
@@ -61,13 +65,19 @@ class NewsListFragment : Fragment() {
     }
 
     private fun viewNewsList() {
-        newsViewModel.getTopHeadLines("us", 1)
+        newsViewModel.getTopHeadLines("us", page)
         newsViewModel.newsHeadLines.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let {
                         newsAdapter.differList.submitList(it.articles.toList())
+                        if (it.totalResults % 20 == 0) {
+                            pages = it.totalResults / 20
+                        } else {
+                            pages = it.totalResults / 20 + 1
+                        }
+                        isLastPage = page == pages
                     }
                 }
                 is Resource.Error -> {
@@ -88,7 +98,7 @@ class NewsListFragment : Fragment() {
         /**
          * Callback method to be invoked when RecyclerView's scroll state changes.
          *
-         * 
+         *
          * @param recyclerView The RecyclerView whose scroll state has changed.
          * @param newState     The updated scroll state. One of [.SCROLL_STATE_IDLE],
          * [.SCROLL_STATE_DRAGGING] or [.SCROLL_STATE_SETTLING].
@@ -118,9 +128,12 @@ class NewsListFragment : Fragment() {
             val visibleItemCount = layoutManager.childCount
             val visibleTopItemPosition = layoutManager.findFirstVisibleItemPosition()
             val hasReachedToEnd = visibleItemCount + visibleTopItemPosition >= totalItemCount
-
-
-
+            val shouldPaginate = !isLoading && !isLastPage && hasReachedToEnd && isScrolling
+            if (shouldPaginate) {
+                page++
+                newsViewModel.getTopHeadLines("us", page)
+                isScrolling = false
+            }
         }
     }
 
