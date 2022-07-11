@@ -43,6 +43,9 @@ class NewsListFragment : Fragment() {
         newsListBinding = FragmentNewsListBinding.bind(view)
         newsViewModel = (activity as MainActivity).newsViewModel
         newsAdapter = (activity as MainActivity).newsAdapter
+        newsAdapter.setOnItemClickListener {
+
+        }
         initRecyclerView()
         viewNewsList()
     }
@@ -52,6 +55,7 @@ class NewsListFragment : Fragment() {
         //newsAdapter = NewsAdapter()
         newsListBinding.recyclerView.adapter = newsAdapter
         newsListBinding.recyclerView.addOnScrollListener(scrollListener)
+
     }
 
     private fun showProgressBar() {
