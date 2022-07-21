@@ -11,20 +11,24 @@
         android:label="fragment_news_list"
         tools:layout="@layout/fragment_news_list" >
         <action
-            android:id="@+id/action_newsListFragment_to_detailedNewsFragment"
-            app:destination="@id/savedFavoriteFragment" />
+            android:id="@+id/action_newsListFragment_to_detailNewsFragment"
+            app:destination="@id/detailNewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailNewsFragment"
         android:name="com.amalwin.newsapiclient.presentation.DetailedNewsFragment"
-        android:label="DetailedNewsFragment" />
+        android:label="DetailedNewsFragment" >
+        <argument
+            android:name="selected_article"
+            app:argType="com.amalwin.newsapiclient.data.model.Article" />
+    </fragment>
     <fragment
         android:id="@+id/savedFavoriteFragment"
         android:name="com.amalwin.newsapiclient.presentation.SavedFavoriteFragment"
         android:label="fragment_saved_favorite"
         tools:layout="@layout/fragment_saved_favorite" >
         <action
-            android:id="@+id/action_savedFavoriteFragment_to_detailedNewsFragment"
-            app:destination="@id/savedFavoriteFragment" />
+            android:id="@+id/action_savedFavoriteFragment_to_detailNewsFragment"
+            app:destination="@id/detailNewsFragment" />
     </fragment>
 </navigation>
